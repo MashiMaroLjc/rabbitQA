@@ -1,0 +1,7 @@
+2019-07-15 15:50:03,267 - QA - INFO - Create the log in 20190715-155003
+2019-07-15 15:53:03,771 - QA - INFO - query: 六一儿童节送什么礼物好  cut:[pair('六一', 'm'), pair('儿童节', 'n'), pair('送', 'v'), pair('什么', 'r'), pair('礼物', 'n'), pair('好', 'a')]
+2019-07-15 15:53:03,772 - QA - INFO - going to execute this sql: select QUESTION ,ANSWER from qa_pair where  instr(QUESTION, '儿童节') > 0 and instr(QUESTION, '礼物') > 0 
+2019-07-15 15:53:41,345 - QA - INFO - [MATCH RESULT]六一儿童节送什么礼物好 match:六一儿童节送女朋友什么礼物好？ score:0.9934640386431571
+2019-07-15 15:54:23,459 - QA - INFO - query: 华为手机那个型号好  cut:[pair('华为', 'nr'), pair('手机', 'n'), pair('那个', 'r'), pair('型', 'k'), pair('号', 'q'), pair('好', 'a')]
+2019-07-15 15:54:23,459 - QA - INFO - going to execute this sql: select QUESTION ,ANSWER from qa_pair where  instr(QUESTION, '华为') > 0 and instr(QUESTION, '手机') > 0 
+2019-07-15 15:54:28,067 - QA - INFO - [MATCH RESULT]华为手机那个型号好 match:华为手机和小米手机的品控哪个比较好？ score:0.9457717552355963
