@@ -3,7 +3,10 @@
 
 ### 下载
 
-因为使用了word2vec和sqlite3，有两个>100M的二进制文件，github不允许直接上次,请在release tag上下载。
+因为使用了word2vec和sqlite3，有两个>100M的二进制文件，github不允许直接上次,可在百度网盘上下载。
+
+> 链接：https://pan.baidu.com/s/1PvGRNuJ_SIoWZfs3F5DblA 
+> 提取码：3b5k 
 
 ### 环境
 
