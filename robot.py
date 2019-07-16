@@ -76,8 +76,8 @@ class Robot:
             ans = search_summary.baike_search(text)
         if len(ans) == 0:
             ans = self._search_engine(text)
-        if len(ans) == 0:
-            ans = self.qa_search(text)
+        # if len(ans) == 0:
+        #     ans = self.qa_search(text)
         if len(ans) == 0:
             ans = self.gen.respond(text)
         return ans
