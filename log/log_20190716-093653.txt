@@ -1,0 +1,6 @@
+2019-07-16 09:36:53,345 - QA - INFO - Create the log in 20190716-093653
+2019-07-16 10:50:19,487 - QA - INFO - text 最近有什么电影上映 替换成 最近有什么电影上映呢
+2019-07-16 10:51:12,546 - QA - INFO - query: 六一儿童节送什么礼物好  cut:[pair('六一', 'm'), pair('儿童节', 'n'), pair('送', 'v'), pair('什么', 'r'), pair('礼物', 'n'), pair('好', 'a')]
+2019-07-16 10:51:12,546 - QA - INFO - going to execute this sql: select QUESTION ,ANSWER from qa_pair where  instr(QUESTION, '儿童节') > 0 and instr(QUESTION, '礼物') > 0 
+2019-07-16 10:52:22,377 - QA - INFO - [MATCH RESULT]六一儿童节送什么礼物好 match:六一儿童节送女朋友什么礼物好？ score:0.9934640386431571
+2019-07-16 10:59:13,929 - QA - INFO - BaiDu No Answer

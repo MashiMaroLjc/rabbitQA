@@ -23,6 +23,85 @@
       ]
     },
     {
+      "pattern": "最近天气怎么样",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+    {
+      "pattern": "是什么$",
+      "mode": "re",
+      "ans": [
+        "#baike&search_engine"
+      ]
+    },
+    {
+      "pattern": "最近有什么电影上映呢",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+    {
+      "pattern": "(\\d{1,}(\\+|\\-|\\*|/|除以)\\d{1,})(等于|=){0,1}",
+      "mode": "re",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+    {
+      "pattern": "哪里",
+      "mode": "in",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+
+    {
+      "pattern": "是谁$",
+      "mode": "re",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+    {
+      "pattern": "什么(日子|诗)",
+      "mode": "re",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+    {
+      "pattern": "(吃|送|买)什么.{0,5}",
+      "mode": "re",
+      "ans": [
+        "#communities",
+        "#summery"
+      ]
+    },
+    {
+      "pattern": "怎么养|怎么办|怎样才好",
+      "mode": "re",
+      "ans": [
+        "#summery",
+        "#communities"
+      ]
+    },
+    {
+      "pattern": "(多少号|几多号|什么日子|几号|时间)",
+      "mode": "re",
+      "ans": [
+        "#search_engine"
+      ]
+    },
+    {
+      "pattern": "(那|哪)个.{2,}好",
+      "mode": "re",
+      "ans": [
+        "#summery",
+        "#communities"
+      ]
+    },
+    {
       "pattern": "我.{0,2}(喜欢|爱)你",
       "mode": "re",
       "ans": [
@@ -40,10 +119,12 @@
     {
       "pattern": "(下一句\\?{0,1})$",
       "mode": "re",
-      "replace":{
-        "src":["下一句"],
-        "target":"下一句是什么"
-        },
+      "replace": {
+        "src": [
+          "下一句"
+        ],
+        "target": "下一句是什么"
+      },
       "standard": ""
     },
     {
@@ -56,6 +137,18 @@
           "什么日子"
         ],
         "target": "时间"
+      },
+      "standard": ""
+    },
+    {
+      "pattern": "(等于几\\?{0,1})$",
+      "mode": "re",
+      "replace": {
+        "src": [
+          "等于几",
+          "等于几?"
+        ],
+        "target": "="
       },
       "standard": ""
     },

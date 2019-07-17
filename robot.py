@@ -1,6 +1,6 @@
 from QACrawler import search_summary
 import kv
-from util import logger
+
 import json
 import re
 import random
@@ -18,68 +18,54 @@ class Robot:
         for path in kv_path:
             json_data = json.load(open(path, "r", encoding="utf-8"))
             self.config.update(json_data)
-        self.kv = kv.KV(self.config)
+        self.kv = kv.KV(self.config['qa'], self.config["standard"])
         self.last_text = None
         self.qa = SqliteQA(db_path, kv_path[0], stopwords_path, model_path)
         self.gen = General(stopwords_path)
-        self.multiprocess_queue = Queue()
+        # self.multiprocess_queue = Queue()
 
-    def _replace(self, s, src_list, target):
-        for src in src_list:
-            s = s.replace(src, target)
-        return s
+    def _exec_intent(self, intent, text):
+        ans = []
+        if intent == "search_engine":
+            # 搜索引擎
+            ans = self._search_engine(text)
+        elif intent == "baike":
+            ans = search_summary.baike_search(text)
+        elif intent == "communities":
+            ans = self.qa_search(text)
+        elif intent == "summery":
+            # 对知识进行归纳
+            ans = self.gen.respond(text)
+        # 其余情况为不懂
+        return ans
 
-    def _replace_standard(self, text):
-        # 先检查标准问答进行替换
-        if "standard" in self.config:
-            ori_text = text
-            for kv in self.config["standard"]:
-                pattern = kv["pattern"]
-                mode = kv.get("mode", "equal")
-                if mode == "equal" and pattern == text:
-                    replace = kv.get("replace", None)
-                    if replace is None:
-                        text = kv["standard"]
-                    else:
-                        text = self._replace(text, replace["src"], replace["target"])
-                    logger.global_logger.info("text {} 替换成 {}".format(ori_text, text))
-                    break
-                if mode == "in" and pattern in text:
-                    replace = kv.get("replace", None)
-                    if replace is None:
-                        text = kv["standard"]
-                    else:
-                        text = self._replace(text, replace["src"], replace["target"])
-                    logger.global_logger.info("text {} 替换成 {}".format(ori_text, text))
-                    break
-                if mode == "re" and re.search(pattern, text) is not None:
-                    replace = kv.get("replace", None)
-                    if replace is None:
-                        text = kv["standard"]
-                    else:
-                        text = self._replace(text, replace["src"], replace["target"])
-                    logger.global_logger.info("text {} 替换成 {}".format(ori_text, text))
-                    break
-        return text
+    def stop(self):
+        self.qa.close()
 
     def get_respond(self, text) -> list:
         """
         当几个接口找不到答案时，返回[]
+
         :param text:
         :return:
         """
         if len(text) == 0:
             return []
-        text = self._replace_standard(text)
-        ans = self.kv_search(text)
-        if len(ans) == 0 and re.search(".{2,10}是什么", text) is not None:
-            ans = search_summary.baike_search(text)
+        ans, text = self.kv_search(text)  # text会被更改为标准问法
         if len(ans) == 0:
-            ans = self._search_engine(text)
-        # if len(ans) == 0:
-        #     ans = self.qa_search(text)
-        if len(ans) == 0:
-            ans = self.gen.respond(text)
+            # 找不到答案默认用搜索引擎和归纳
+            ans.append("#search_engine&summery")
+        if len(ans) == 1 and ans[0].startswith("#"):
+            intents = ans[0][1:]
+            # 按照意图来弄
+            # 用&分割多个意图串行，直到结束或找到答案
+
+            intent_list = intents.split("&")
+            print("text {} intents:{}".format(text, intent_list))
+            for intent in intent_list:
+                ans = self._exec_intent(intent, text)
+                if len(ans) > 0:
+                    break
         return ans
 
     def query(self, text, past):
